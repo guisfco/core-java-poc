@@ -1,5 +1,7 @@
 package com.guisfco.api.properties;
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -18,6 +20,19 @@ public class Main {
         System.out.println("\n==== LOAD ====");
         loadProperties(properties);
         loadPropertiesFromXML(properties);
+
+        System.out.println("\n==== STORE ====");
+        store(properties);
+        storeToXML(properties);
+
+        System.out.println("\n==== LIST ====");
+        list(properties);
+
+        System.out.println("\n==== REMOVE ====");
+        remove(properties);
+
+        System.out.println("\n==== SYSTEM ====");
+        getSystemProperties();
     }
 
     static Properties create() {
@@ -63,5 +78,35 @@ public class Main {
 
         System.out.println(properties.getProperty("signup"));
         System.out.println(properties.getProperty("signin"));
+    }
+
+    static void store(Properties properties) throws IOException {
+        try (var fileWriter = new FileWriter("./src/main/resources/output.properties")) {
+            properties.store(fileWriter, "Test v1.0");
+        }
+
+        System.out.println("File stored in /src/main/resources/output.properties");
+    }
+
+    static void storeToXML(Properties properties) throws IOException {
+        try (var fileWriter = new FileOutputStream("./src/main/resources/output.xml")) {
+            properties.storeToXML(fileWriter, "Test v1.0");
+        }
+
+        System.out.println("File stored in /src/main/resources/output.xml");
+    }
+
+    static void list(Properties properties) throws IOException {
+        properties.list(System.out);
+    }
+
+    static void remove(Properties properties) {
+        properties.remove("database.url");
+        System.out.println(properties);
+    }
+
+    static void getSystemProperties() {
+        var systemProperties = System.getProperties();
+        System.out.println(systemProperties.getProperty("java.version"));
     }
 }
