@@ -11,27 +11,27 @@ import java.util.Properties;
 public class Main {
 
     static void main() throws IOException {
-        System.out.println("==== CREATE ====");
+        IO.println("==== CREATE ====");
         var properties = create();
 
-        System.out.println("\n==== READ ====");
+        IO.println("\n==== READ ====");
         read(properties);
 
-        System.out.println("\n==== LOAD ====");
+        IO.println("\n==== LOAD ====");
         loadProperties(properties);
         loadPropertiesFromXML(properties);
 
-        System.out.println("\n==== STORE ====");
+        IO.println("\n==== STORE ====");
         store(properties);
         storeToXML(properties);
 
-        System.out.println("\n==== LIST ====");
+        IO.println("\n==== LIST ====");
         list(properties);
 
-        System.out.println("\n==== REMOVE ====");
+        IO.println("\n==== REMOVE ====");
         remove(properties);
 
-        System.out.println("\n==== SYSTEM ====");
+        IO.println("\n==== SYSTEM ====");
         getSystemProperties();
     }
 
@@ -49,8 +49,8 @@ public class Main {
         // Updating property
         properties.setProperty("version", "2.0");
 
-        System.out.println(properties);
-        System.out.println(properties.getProperty("env")); // Inherit default property
+        IO.println(properties);
+        IO.println(properties.getProperty("env")); // Inherit default property
 
         return properties;
     }
@@ -59,8 +59,8 @@ public class Main {
         var version = properties.getProperty("version");
         var missingProperty = properties.getProperty("missing.key", "default");
 
-        System.out.println(version);
-        System.out.println(missingProperty);
+        IO.println(version);
+        IO.println(missingProperty);
     }
 
     static void loadProperties(Properties properties) throws IOException {
@@ -68,7 +68,7 @@ public class Main {
             properties.load(inputStream);
         }
 
-        System.out.println(properties);
+        IO.println(properties);
     }
 
     static void loadPropertiesFromXML(Properties properties) throws IOException {
@@ -76,8 +76,8 @@ public class Main {
             properties.loadFromXML(inputStream);
         }
 
-        System.out.println(properties.getProperty("signup"));
-        System.out.println(properties.getProperty("signin"));
+        IO.println(properties.getProperty("signup"));
+        IO.println(properties.getProperty("signin"));
     }
 
     static void store(Properties properties) throws IOException {
@@ -85,7 +85,7 @@ public class Main {
             properties.store(fileWriter, "Test v1.0");
         }
 
-        System.out.println("File stored in /src/main/resources/output.properties");
+        IO.println("File stored in /src/main/resources/output.properties");
     }
 
     static void storeToXML(Properties properties) throws IOException {
@@ -93,7 +93,7 @@ public class Main {
             properties.storeToXML(fileWriter, "Test v1.0");
         }
 
-        System.out.println("File stored in /src/main/resources/output.xml");
+        IO.println("File stored in /src/main/resources/output.xml");
     }
 
     static void list(Properties properties) throws IOException {
@@ -102,11 +102,11 @@ public class Main {
 
     static void remove(Properties properties) {
         properties.remove("database.url");
-        System.out.println(properties);
+        IO.println(properties);
     }
 
     static void getSystemProperties() {
         var systemProperties = System.getProperties();
-        System.out.println(systemProperties.getProperty("java.version"));
+        IO.println(systemProperties.getProperty("java.version"));
     }
 }
