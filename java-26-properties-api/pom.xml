@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.guisfco</groupId>
-    <artifactId>core-java-poc</artifactId>
+    <artifactId>java-26-properties-api</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

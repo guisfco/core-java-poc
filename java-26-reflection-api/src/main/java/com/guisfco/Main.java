@@ -1,4 +1,4 @@
-package com.guisfco.api.reflection;
+package com.guisfco;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;

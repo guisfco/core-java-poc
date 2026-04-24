@@ -1,4 +1,4 @@
-package com.guisfco.api.reflection;
+package com.guisfco;
 
 public class Person {
 

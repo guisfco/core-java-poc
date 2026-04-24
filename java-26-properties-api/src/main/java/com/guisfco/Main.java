@@ -1,4 +1,4 @@
-package com.guisfco.api.properties;
+package com.guisfco;
 
 import java.io.FileOutputStream;
 import java.io.FileWriter;
