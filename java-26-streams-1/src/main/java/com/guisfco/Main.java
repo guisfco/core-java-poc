@@ -3,6 +3,8 @@ package com.guisfco;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -12,6 +14,59 @@ public class Main {
 
         IO.println("\n==== Arrays ====");
         arrays();
+
+        IO.println("\n==== Map ====");
+        map();
+    }
+
+    private static void map() {
+        // Creates an immutable Map, so we cannot put/remove items
+        var ages = Map.of(
+                "Guilherme", 26,
+                "Yasmin", 24,
+                "Cristina", 44,
+                "Maria", 18
+        );
+
+        // Filtering (names only)
+        var peopleOlderThan25 = ages.entrySet().stream()
+                .filter(e -> e.getValue() > 25)
+                .map(Map.Entry::getKey)
+                .toList();
+
+        IO.println("People older than 25 years: " + peopleOlderThan25);
+
+        // Transforming values
+        var transformed = ages.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> e.getValue() + 5)
+                );
+
+        IO.println("Ages after 5 years: " + transformed);
+
+        // Sum all items
+        var totalAges = ages.values().stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+
+        IO.println("Sum of all ages: " + totalAges);
+
+        // Grouping by something
+        var grouped = ages.entrySet().stream()
+                .collect(Collectors.groupingBy(
+                        e -> e.getValue() > 25 ? "OLDER" : "YOUNGER",
+                        Collectors.mapping(Map.Entry::getKey, Collectors.toList())
+                ));
+
+        IO.println("Grouped: " + grouped);
+
+        // Max value
+        var oldest = ages.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .orElseThrow();
+
+        IO.println("Oldest person: " + oldest.getKey());
     }
 
     private static void arrays() {
