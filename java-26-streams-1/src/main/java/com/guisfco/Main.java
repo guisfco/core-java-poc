@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Main {
+
+    private static final Predicate<String> containsA = name -> name.toLowerCase().contains("a");
+    private static final Predicate<Map.Entry<String, Integer>> isOlderThan25 = e -> e.getValue() > 25;
 
     static void main() {
         IO.println("==== Lists ====");
         lists();
 
-        IO.println("\n==== Arrays ====");
+        IO.println("\n==== Arrays + Filter ====");
         arrays();
 
-        IO.println("\n==== Map ====");
+        IO.println("\n==== Map + Filter ====");
         map();
     }
 
@@ -30,7 +34,7 @@ public class Main {
 
         // Filtering (names only)
         var peopleOlderThan25 = ages.entrySet().stream()
-                .filter(e -> e.getValue() > 25)
+                .filter(isOlderThan25)
                 .map(Map.Entry::getKey)
                 .toList();
 
@@ -55,7 +59,7 @@ public class Main {
         // Grouping by something
         var grouped = ages.entrySet().stream()
                 .collect(Collectors.groupingBy(
-                        e -> e.getValue() > 25 ? "OLDER" : "YOUNGER",
+                        e -> isOlderThan25.test(e) ? "OLDER" : "YOUNGER",
                         Collectors.mapping(Map.Entry::getKey, Collectors.toList())
                 ));
 
@@ -67,6 +71,14 @@ public class Main {
                 .orElseThrow();
 
         IO.println("Oldest person: " + oldest.getKey());
+
+        // Predicate Composition
+        var peopleOlderThan25ContainingA = ages.entrySet().stream()
+                .filter(isOlderThan25.and(e -> containsA.test(e.getKey())))
+                .map(Map.Entry::getKey)
+                .toList();
+
+        IO.println("Predicate composition: " + peopleOlderThan25ContainingA);
     }
 
     private static void arrays() {
@@ -84,7 +96,7 @@ public class Main {
 
         // When iterating an array using stream, use Arrays.stream(...) instead of Stream.of(...) to avoid issues with primitive types
         var namesContainingA = Arrays.stream(names)
-                .filter(name -> name.contains("a"))
+                .filter(containsA)
                 .count();
 
         IO.println("Names containing A: " + namesContainingA);
