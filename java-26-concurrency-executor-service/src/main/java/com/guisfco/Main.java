@@ -28,7 +28,7 @@ public class Main {
      *  - Preserves order
      *  - Reuses the same thread for all tasks
      */
-    static void singleThreadExecutor() {
+    private static void singleThreadExecutor() {
         try (var executor = Executors.newSingleThreadExecutor()) {
             var task = createTask();
 
@@ -46,7 +46,7 @@ public class Main {
      *  - Following tasks wait the others to finish
      *  - Threads are reused between tasks
      */
-    static void fixedThreadPool() {
+    private static void fixedThreadPool() {
         try (var executor = Executors.newFixedThreadPool(2)) {
             var task = createTask();
 
@@ -65,7 +65,7 @@ public class Main {
      *  - Reuses idle threads when possible
      *  - Has no fixed thread limit (this can cause issues)
      */
-    static void cachedThreadPool() {
+    private static void cachedThreadPool() {
         try (var executor = Executors.newCachedThreadPool()) {
             var task = createTask();
 
@@ -78,7 +78,7 @@ public class Main {
         }
     }
 
-    static void scheduledThreadPool() {
+    private static void scheduledThreadPool() {
         // Creates an ExecutorService that works like a scheduler. In this example, the task starts after 2 seconds.
         try (var executor = Executors.newScheduledThreadPool(2)) {
             var task = createTask();
@@ -95,9 +95,9 @@ public class Main {
      */
     static void virtualThreadPerTaskExecutor() {
         /*
-        * Using this only to have a name to show when printing the virtual thread name.
-        * In normal situations, we could use the newVirtualThreadPerTaskExecutor() directly.
-        * */
+         * Using this only to have a name to show when printing the virtual thread name.
+         * In normal situations, we could use the newVirtualThreadPerTaskExecutor() directly.
+         * */
         var factory = Thread.ofVirtual().name("virtual-thread-", 1).factory();
 
         try (var executor = Executors.newThreadPerTaskExecutor(factory)) {
