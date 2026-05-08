@@ -1,41 +1,128 @@
 package com.guisfco;
 
-import java.util.ArrayList;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    static void main() throws ExecutionException, InterruptedException {
-        var executorService = Executors.newFixedThreadPool(10);
+    static void main() {
+        IO.println("==== newSingleThreadExecutor ====");
+        singleThreadExecutor();
 
-        Callable<String> callableTask = () -> {
-            Thread.sleep(1000);
-            IO.println("Executing task...");
-            return "Task executed";
-        };
+        IO.println("\n==== newFixedThreadPool ====");
+        fixedThreadPool();
 
-        var callableTasks = new ArrayList<Callable<String>>();
-        callableTasks.add(callableTask);
-        callableTasks.add(callableTask);
-        callableTasks.add(callableTask);
-        callableTasks.add(callableTask);
-        callableTasks.add(callableTask);
+        IO.println("\n==== newCachedThreadPool ====");
+        cachedThreadPool();
 
+        IO.println("\n==== newScheduledThreadPool ====");
+        scheduledThreadPool();
+
+        IO.println("\n==== newVirtualThreadPerTaskExecutor ====");
+        virtualThreadPerTaskExecutor();
+    }
+
+    /*
+     * Creates an ExecutorService with only one worker:
+     *  - Tasks execute sequentially
+     *  - Preserves order
+     *  - Reuses the same thread for all tasks
+     */
+    static void singleThreadExecutor() {
+        try (var executor = Executors.newSingleThreadExecutor()) {
+            var task = createTask();
+
+            executor.execute(task);
+            executor.execute(task);
+            executor.execute(task);
+
+            IO.println("singleThreadExecutor submitted all tasks");
+        }
+    }
+
+    /*
+     * Creates an ExecutorService with a fixed number of worker (think of it as queue consumers):
+     *  - On the following example, only 2 tasks can run simultaneously
+     *  - Following tasks wait the others to finish
+     *  - Threads are reused between tasks
+     */
+    static void fixedThreadPool() {
+        try (var executor = Executors.newFixedThreadPool(2)) {
+            var task = createTask();
+
+            executor.execute(task);
+            executor.execute(task);
+            executor.execute(task);
+            executor.execute(task);
+
+            IO.println("fixedThreadPool submitted all tasks");
+        }
+    }
+
+    /*
+     * Creates an ExecutorService that dynamically creates threads:
+     *  - Creates new threads on demand
+     *  - Reuses idle threads when possible
+     *  - Has no fixed thread limit (this can cause issues)
+     */
+    static void cachedThreadPool() {
+        try (var executor = Executors.newCachedThreadPool()) {
+            var task = createTask();
+
+            executor.execute(task);
+            executor.execute(task);
+            executor.execute(task);
+            executor.execute(task);
+
+            IO.println("cachedThreadPool submitted all tasks");
+        }
+    }
+
+    static void scheduledThreadPool() {
+        // Creates an ExecutorService that works like a scheduler. In this example, the task starts after 2 seconds.
+        try (var executor = Executors.newScheduledThreadPool(2)) {
+            var task = createTask();
+            executor.schedule(task, 2, TimeUnit.SECONDS);
+            IO.println("scheduledThreadPool submitted all tasks");
+        }
+    }
+
+    /*
+     * Creates an ExecutorService that uses Virtual Threads execution:
+     *  - Creates one virtual thread per task
+     *  - Virtual threads are lightweight
+     *  - Supports massive concurrency
+     */
+    static void virtualThreadPerTaskExecutor() {
         /*
-        The submit() already triggers the execution. Future is used basically for tracking the execution,
-        and then you can use it for:
-            - wait for completion (get())
-            - cancel it (cancel())
-            - check status (isDone())
-        */
-        var future = executorService.submit(callableTask);
-        IO.println("The flow continues");
-        IO.println(future.get());
+        * Using this only to have a name to show when printing the virtual thread name.
+        * In normal situations, we could use the newVirtualThreadPerTaskExecutor() directly.
+        * */
+        var factory = Thread.ofVirtual().name("virtual-thread-", 1).factory();
 
-        // The invokeAll() submits multiple tasks at once and waits for all of them to finish.
-        var futures = executorService.invokeAll(callableTasks);
-        IO.println("This print was waiting for the list of tasks to finish");
+        try (var executor = Executors.newThreadPerTaskExecutor(factory)) {
+            var task = createTask();
+
+            executor.execute(task);
+            executor.execute(task);
+            executor.execute(task);
+            executor.execute(task);
+        }
+    }
+
+    private static Runnable createTask() {
+        return () -> {
+            // Every new instance of an ExecutorService will increment the thread name
+            var threadName = Thread.currentThread().getName();
+            IO.println("Starting task on: " + threadName);
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+            IO.println("Finishing task on: " + threadName);
+        };
     }
 }
