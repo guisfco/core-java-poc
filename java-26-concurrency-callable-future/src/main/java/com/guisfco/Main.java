@@ -20,26 +20,15 @@ public class Main {
 
             IO.println("\n==== Multiple submit() ====");
             multipleSubmit(executorService);
-
-            IO.println("\n==== execute() ====");
-            execute(executorService);
         }
     }
 
-    // The execute() method doesn't return any value, and it doesn't support tracking (Fire-and-forget)
-    private static void execute(ExecutorService executorService) {
-        executorService.execute(() -> IO.println("Runnable task executed"));
-        executorService.execute(() -> IO.println("Runnable task executed"));
-        executorService.execute(() -> IO.println("Runnable task executed"));
-        executorService.execute(() -> IO.println("Runnable task executed"));
-        executorService.execute(() -> IO.println("Runnable task executed"));
-
-        IO.println("All runnable tasks were sent to execution");
-    }
-
-    // Example of multiple submit() usage. This approach doesn't wait for the tasks to finish.
+    /*
+    * Example of multiple submit() usage.
+    * The submit() itself is non-blocking. Synchronization happens later through Future#get().
+    * */
     private static void multipleSubmit(ExecutorService executorService) throws InterruptedException, ExecutionException {
-        var callableTask = getCallableTask();
+        var callableTask = createCallableTask();
         var callableTasks = List.of(callableTask, callableTask, callableTask, callableTask, callableTask);
 
         var futuresNonBlocking = callableTasks.stream()
@@ -55,8 +44,8 @@ public class Main {
     }
 
     /*
-     * The submit() instantly triggers the execution. We use it when we want asynchronous behavior, and we don't need
-     * all tasks immediately.
+     * The submit() schedules the task execution (the execution might be instantly or not), and returns a Future for
+     * tracking the result. We use it when we want asynchronous behavior, and we don't need all tasks immediately.
      *
      * Future is used basically for tracking the execution, and then you can use it for:
      *   - wait for completion (get())
@@ -64,9 +53,10 @@ public class Main {
      *   - check status (isDone())
      * */
     private static void submit(ExecutorService executorService) throws ExecutionException, InterruptedException {
-        var future = executorService.submit(getCallableTask());
+        var future = executorService.submit(createCallableTask());
 
         IO.println("The flow continues");
+        IO.println("Is done? " + future.isDone());
         IO.println(future.get()); // Waits the task to finish if necessary
     }
 
@@ -74,8 +64,8 @@ public class Main {
      * The invokeAll() submits multiple tasks at once and waits for all of them to finish.
      * Used when we have a batch of tasks, and we need all results together.
      * */
-    private static void invokeAll(ExecutorService executorService) throws InterruptedException {
-        var callableTask = getCallableTask();
+    private static void invokeAll(ExecutorService executorService) throws InterruptedException, ExecutionException {
+        var callableTask = createCallableTask();
         var callableTasks = new ArrayList<Callable<String>>();
 
         callableTasks.add(callableTask);
@@ -86,9 +76,13 @@ public class Main {
 
         var futures = executorService.invokeAll(callableTasks);
         IO.println("This print was waiting for the list of tasks to finish");
+
+        for (Future<String> future : futures) {
+            IO.println(future.get());
+        }
     }
 
-    private static Callable<String> getCallableTask() {
+    private static Callable<String> createCallableTask() {
         return () -> {
             Thread.sleep(1000);
             IO.println("Executing task...");
