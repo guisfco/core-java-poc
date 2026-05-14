@@ -10,18 +10,21 @@ public class Main {
     static void main() throws InterruptedException {
         var counter = new Counter();
         var synchronizedCounter = new SynchronizedCounter();
+        var reentrantLockCounter = new ReentrantLockCounter();
 
         try (var executorService = Executors.newVirtualThreadPerTaskExecutor()) {
             for (int i = 0; i < NUMBER_OF_TASKS; i++) {
                 executorService.submit(counter::increment);
                 executorService.submit(synchronizedCounter::increment);
+                executorService.submit(reentrantLockCounter::increment);
             }
 
             executorService.shutdown();
             executorService.awaitTermination(5, TimeUnit.SECONDS);
         }
 
-        IO.println("The counter value is " + counter.getCount());
-        IO.println("The counter value for synchronized counter is " + synchronizedCounter.getCount());
+        IO.println("Unsafe (no lock) counter: " + counter.getCount());
+        IO.println("Synchronized counter: " + synchronizedCounter.getCount());
+        IO.println("ReentrantLock counter: " + reentrantLockCounter.getCount());
     }
 }

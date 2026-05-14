@@ -4,6 +4,7 @@ public class SynchronizedCounter {
 
     private int count;
 
+    // When using synchronized, Java manages the lock automatically
     public synchronized void increment() {
         this.count++;
     }
