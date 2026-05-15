@@ -12,7 +12,7 @@ public class ReentrantLockCounter {
     }
 
     /*
-     * lock() - waits until the lock becomes available
+     * lock() - WAITS until the lock becomes available
      * tryLock() - tries to acquire the lock immediately without waiting
      */
     public void increment() {

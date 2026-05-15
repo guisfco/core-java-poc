@@ -11,12 +11,14 @@ public class Main {
         var counter = new Counter();
         var synchronizedCounter = new SynchronizedCounter();
         var reentrantLockCounter = new ReentrantLockCounter();
+        var atomicCounter = new AtomicCounter();
 
         try (var executorService = Executors.newVirtualThreadPerTaskExecutor()) {
             for (int i = 0; i < NUMBER_OF_TASKS; i++) {
                 executorService.submit(counter::increment);
                 executorService.submit(synchronizedCounter::increment);
                 executorService.submit(reentrantLockCounter::increment);
+                executorService.submit(atomicCounter::increment);
             }
 
             executorService.shutdown();
@@ -26,5 +28,6 @@ public class Main {
         IO.println("Unsafe (no lock) counter: " + counter.getCount());
         IO.println("Synchronized counter: " + synchronizedCounter.getCount());
         IO.println("ReentrantLock counter: " + reentrantLockCounter.getCount());
+        IO.println("Atomic counter: " + atomicCounter.getCount());
     }
 }
