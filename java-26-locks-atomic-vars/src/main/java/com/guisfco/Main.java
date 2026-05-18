@@ -12,6 +12,7 @@ public class Main {
         var synchronizedCounter = new SynchronizedCounter();
         var reentrantLockCounter = new ReentrantLockCounter();
         var atomicCounter = new AtomicCounter();
+        var readWriteCounter = new ReadWriteCounter();
 
         try (var executorService = Executors.newVirtualThreadPerTaskExecutor()) {
             for (int i = 0; i < NUMBER_OF_TASKS; i++) {
@@ -19,6 +20,7 @@ public class Main {
                 executorService.submit(synchronizedCounter::increment);
                 executorService.submit(reentrantLockCounter::increment);
                 executorService.submit(atomicCounter::increment);
+                executorService.submit(readWriteCounter::increment);
             }
 
             executorService.shutdown();
@@ -29,5 +31,6 @@ public class Main {
         IO.println("Synchronized counter: " + synchronizedCounter.getCount());
         IO.println("ReentrantLock counter: " + reentrantLockCounter.getCount());
         IO.println("Atomic counter: " + atomicCounter.getCount());
+        IO.println("ReadWriteLock counter: " + readWriteCounter.getCount());
     }
 }
