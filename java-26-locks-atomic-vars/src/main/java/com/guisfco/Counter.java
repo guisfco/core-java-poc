@@ -1,14 +1,7 @@
 package com.guisfco;
 
-public class Counter {
+public interface Counter {
 
-    private int count;
-
-    public void increment() {
-        this.count++;
-    }
-
-    public int getCount() {
-        return this.count;
-    }
+    void increment();
+    int getCount();
 }

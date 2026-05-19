@@ -3,7 +3,7 @@ package com.guisfco;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class ReadWriteCounter {
+public class ReadWriteCounter implements Counter {
 
     private int count;
 
@@ -14,6 +14,7 @@ public class ReadWriteCounter {
         this.lock = new ReentrantReadWriteLock();
     }
 
+    @Override
     public void increment() {
         lock.writeLock().lock(); // Only one thread can write at a time
 
@@ -24,6 +25,7 @@ public class ReadWriteCounter {
         }
     }
 
+    @Override
     public int getCount() {
         // Multiple threads can read simultaneously, as long as no thread is writing
         // If some thread is writing, the reader BLOCKS and waits

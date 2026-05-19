@@ -2,7 +2,7 @@ package com.guisfco;
 
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ReentrantLockCounter {
+public class ReentrantLockCounter implements Counter {
 
     private int count;
     private final ReentrantLock lock;
@@ -15,6 +15,7 @@ public class ReentrantLockCounter {
      * lock() - WAITS until the lock becomes available
      * tryLock() - tries to acquire the lock immediately without waiting
      */
+    @Override
     public void increment() {
         lock.lock(); // When using ReentrantLock, we manage the lock manually
 
@@ -25,6 +26,7 @@ public class ReentrantLockCounter {
         }
     }
 
+    @Override
     public int getCount() {
         return this.count;
     }
