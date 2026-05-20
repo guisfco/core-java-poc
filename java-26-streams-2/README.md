@@ -4,10 +4,10 @@ This POC continues the exploration of Java Streams and Functional Interfaces, fo
 
 ## Topics
 
-- [Supplier Interface (Generating data)](https://github.com/guisfco/lc-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L53)
-- [Stream Generation with Supplier](https://github.com/guisfco/lc-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L58)
-- [Consumer Interface](https://github.com/guisfco/lc-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L45)
-- [UnaryOperator (Transformation)](https://github.com/guisfco/lc-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L26)
-- [BinaryOperator (Reduction)](https://github.com/guisfco/lc-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L31)
-- [Combining Operators (andThen)](https://github.com/guisfco/lc-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L35)
-- [Stream Reduction with BinaryOperator](https://github.com/guisfco/lc-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L40)
+- [Supplier Interface (Generating data)](https://github.com/guisfco/java-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L53)
+- [Stream Generation with Supplier](https://github.com/guisfco/java-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L58)
+- [Consumer Interface](https://github.com/guisfco/java-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L45)
+- [UnaryOperator (Transformation)](https://github.com/guisfco/java-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L26)
+- [BinaryOperator (Reduction)](https://github.com/guisfco/java-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L31)
+- [Combining Operators (andThen)](https://github.com/guisfco/java-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L35)
+- [Stream Reduction with BinaryOperator](https://github.com/guisfco/java-pocs/blob/main/java-26-streams-2/src/main/java/com/guisfco/Main.java#L40)

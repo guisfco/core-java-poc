@@ -4,8 +4,8 @@ This POC explores the `ExecutorService` API in Java, demonstrating different thr
 
 ## Topics
 
-- [Single Thread Executor](https://github.com/guisfco/lc-pocs/blob/main/java-26-concurrency-executor-service/src/main/java/com/guisfco/Main.java#L31)
-- [Fixed Thread Pool](https://github.com/guisfco/lc-pocs/blob/main/java-26-concurrency-executor-service/src/main/java/com/guisfco/Main.java#L49)
-- [Cached Thread Pool](https://github.com/guisfco/lc-pocs/blob/main/java-26-concurrency-executor-service/src/main/java/com/guisfco/Main.java#L68)
-- [Scheduled Thread Pool](https://github.com/guisfco/lc-pocs/blob/main/java-26-concurrency-executor-service/src/main/java/com/guisfco/Main.java#L81)
-- [Virtual Thread Per Task Executor](https://github.com/guisfco/lc-pocs/blob/main/java-26-concurrency-executor-service/src/main/java/com/guisfco/Main.java#L96)
+- [Single Thread Executor](https://github.com/guisfco/java-pocs/blob/main/java-26-concurrency-executor-service/src/main/java/com/guisfco/Main.java#L31)
+- [Fixed Thread Pool](https://github.com/guisfco/java-pocs/blob/main/java-26-concurrency-executor-service/src/main/java/com/guisfco/Main.java#L49)
+- [Cached Thread Pool](https://github.com/guisfco/java-pocs/blob/main/java-26-concurrency-executor-service/src/main/java/com/guisfco/Main.java#L68)
+- [Scheduled Thread Pool](https://github.com/guisfco/java-pocs/blob/main/java-26-concurrency-executor-service/src/main/java/com/guisfco/Main.java#L81)
+- [Virtual Thread Per Task Executor](https://github.com/guisfco/java-pocs/blob/main/java-26-concurrency-executor-service/src/main/java/com/guisfco/Main.java#L96)
